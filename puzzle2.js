@@ -1,11 +1,14 @@
 /*
 Rules of Puzzle 2
-Puzzle input contains rows of numbers
-Row is valid if each number differs from the one before or after it by at least 1 and
-only differ in difference by at most 3
+//in each set of numbers, check if the difference between each number is more than 3
+//if it is more than 3, then it is not valid
+//if it is less than 1 then it is not valid.
+//numbers must increase or decrease by at least 1 thoughout the set
+//if numbers increase and decrease in set then it is not valid.
 
 76421 is valid
 12789 is not valid
+98999 is not valid
 */
 
 const fs = require('fs');
@@ -21,13 +24,38 @@ function readFileLines() {
 const lines = readFileLines();
 
 
-let total = 0;
+let total = lines.length;
+let arrayItemCheck = [];
 for (let i = 0;i<lines.length;i++) {
+  let initialDirection = null;
+  //the above is out of the loop to ensure I can check each item in the array.
   let line = lines[i];
-  console.log(line);
-}
-
-//array is created called lines that includes file data. It's in an array format.
-//each group needs to be evaluated. 
-//so grab each bit of the array, make it an array of it's own and do a for loop on it.
-//contain this all in it's own for loop to go though the lines array.
+ let arrayItemCheck = line.split(' ').map(Number);
+ 
+//console.log(arrayItemCheck.length);  
+for (let j = 1;j<arrayItemCheck.length;j++) {
+  let firstNumber = arrayItemCheck[j-1];
+  let secondNumber = arrayItemCheck[j];
+  if (Math.abs(firstNumber - secondNumber) <= 3 && Math.abs(firstNumber - secondNumber) >= 1) {
+    let currentDirection = null;
+        }
+        else {
+          total--;
+          break;
+        }
+        if (firstNumber > secondNumber){
+          currentDirection = 'decrease';
+        } else if (firstNumber < secondNumber) {  
+          currentDirection = 'increase';
+        } else{
+          total--;
+          break;
+        } if (initialDirection===null){
+          initialDirection = currentDirection
+    } else if (initialDirection !== currentDirection) {
+      total--;
+      break;
+    }
+  }
+} 
+console.log(total);
